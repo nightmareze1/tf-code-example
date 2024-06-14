@@ -1,0 +1,19 @@
+# Terraform files
+*.tfstate
+*.tfstate.backup
+**/.terraform.lock.hcl
+.terraform/
+
+# go deps
+vendor/
+
+# Tests directory
+.test-data/
+
+# Workaround for go test
+main.go
+go.mod
+go.sum
+
+# Environment variables
+.env

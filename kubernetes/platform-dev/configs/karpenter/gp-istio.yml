@@ -1,0 +1,29 @@
+# This example provisioner will provision general purpose instances
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: gp-istio
+spec:
+  ttlSecondsAfterEmpty: 120
+  labels:
+    group: eks-od-istio
+  requirements:
+    # Include general purpose instance families
+    - key: karpenter.k8s.aws/instance-family
+      operator: In
+      values: [t3, t2, m5]
+    - key: karpenter.k8s.aws/instance-size
+      operator: In
+      values: [xlarge, large]
+  providerRef:
+    name: gp-istio
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: gp-istio
+spec:
+  subnetSelector:
+    karpenter.sh/discovery: "true"
+  securityGroupSelector:
+    karpenter.sh/discovery: "test-dev-west-platform-eks"
